@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevBlog - Meu Espaço Tech</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #38bdf8;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        header {
+            background-color: var(--card-bg);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid #334155;
+        }
+        header h1 { margin: 0; color: var(--accent-color); }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .post-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .post-card h2 a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        .post-card h2 a:hover { color: var(--accent-color); }
+        .post-date { font-size: 0.85rem; color: var(--text-muted); }
+        footer { text-align: center; padding: 2rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚡ Meu Blog Tech</h1>
+        <p>Compartilhando códigos, ideias e aprendizados.</p>
+    </header>
+
+    <main class="container" id="posts-container">
+        </main>
+
+    <footer>
+        <p>&copy; 2026 - Desenvolvido por Mim</p>
+    </footer>
+
+    <script>
+        // Carrega os posts do JSON e renderiza na tela
+        async function loadPosts() {
+            try {
+                const response = await fetch('posts.json');
+                const posts = await response.json();
+                const container = document.getElementById('posts-container');
+                
+                container.innerHTML = posts.map(post => `
+                    <article class="post-card">
+                        <span class="post-date">${post.date}</span>
+                        <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+                        <p>${post.excerpt}</p>
+                    </article>
+                `).join('');
+            } catch (error) {
+                console.error("Erro ao carregar posts:", error);
+            }
+        }
+        window.onload = loadPosts;
+    </script>
+</body>
+</html>
